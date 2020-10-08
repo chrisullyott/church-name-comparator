@@ -1,4 +1,23 @@
 {
+    "name": "chrisullyott/church-name-comparator",
+    "type": "library",
+    "description": "Compare two church names to see if they refer to the same congregation.",
+    "homepage": "https://github.com/chrisullyott/church-name-comparator",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chris Ullyott",
+            "email": "contact@chrisullyott.com",
+            "homepage": "http://www.chrisullyott.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/chrisullyott/church-name-comparator/issues",
+        "source": "https://github.com/chrisullyott/church-name-comparator"
+    },
+    "require": {
+        "php": "^7.0"
+    },
     "require-dev": {
         "phpunit/phpunit": "^9.4"
     },
@@ -6,5 +25,9 @@
         "psr-4": {
             "ChrisUllyott\\": "src/"
         }
-    }
+    },
+    "keywords": [
+        "php",
+        "churches"
+    ]
 }
