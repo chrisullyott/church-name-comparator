@@ -247,7 +247,7 @@ class ChurchNameComparator
 
     private static function isContained($string1, $string2)
     {
-        $sorted = static::sortArrayByLength([$string1, $string2]);
+        $sorted = static::sortByLengthDesc([$string1, $string2]);
 
         return stripos($sorted[0], $sorted[1]) !== false;
     }
@@ -256,7 +256,7 @@ class ChurchNameComparator
     {
         $string = static::removePosession($string);
         $string = static::removeNonAlpha($string);
-        $searches = static::sortArrayByLength(static::getAllTerms());
+        $searches = static::sortByLengthDesc(static::getAllTerms());
 
         foreach ($searches as $search) {
             $pattern = "/\b" . preg_quote($search) . "\b/i";
@@ -308,7 +308,7 @@ class ChurchNameComparator
 
     private static function matchLongestSubstring($string, array $substrings)
     {
-        $substrings = static::sortArrayByLength($substrings);
+        $substrings = static::sortByLengthDesc($substrings);
 
         foreach ($substrings as $substring) {
             $pattern = "/\b" . preg_quote($substring) . "\b/i";
@@ -318,7 +318,7 @@ class ChurchNameComparator
         return null;
     }
 
-    private static function sortArrayByLength(array $array)
+    private static function sortByLengthDesc(array $array)
     {
         usort($array, function($a, $b) {
             return strlen($b) - strlen($a);
