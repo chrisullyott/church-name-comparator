@@ -7,6 +7,8 @@ class ChurchNameComparatorTest extends TestCase
 {
     /**
      * Data for TRUE test cases.
+     *
+     * @todo Abbreviation with omissions: FBC Clarksville, First Baptist Clarksville
      */
     private static $trueCases = [
         [
