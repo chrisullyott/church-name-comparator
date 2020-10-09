@@ -266,20 +266,6 @@ class ChurchNameComparator
         return static::sanitize($string);
     }
 
-    private static function abbreviate($string)
-    {
-        $out = '';
-        $string = strtoupper(static::removeNonAlpha($string));
-        $parts = preg_split('/\s+/', $string);
-
-        foreach ($parts as $part) {
-            if (static::isGrammarString($part)) continue;
-            $out .= $part[0];
-        }
-
-        return $out;
-    }
-
     private function smartAbbreviate($string)
     {
         $out = '';
@@ -289,6 +275,20 @@ class ChurchNameComparator
         foreach ($parts as $part) {
             if (static::isGrammarString($part)) continue;
             $out .= $this->isAbbreviatedString($part) ? $part : $part[0];
+        }
+
+        return $out;
+    }
+
+    private static function abbreviate($string)
+    {
+        $out = '';
+        $string = strtoupper(static::removeNonAlpha($string));
+        $parts = preg_split('/\s+/', $string);
+
+        foreach ($parts as $part) {
+            if (static::isGrammarString($part)) continue;
+            $out .= $part[0];
         }
 
         return $out;
