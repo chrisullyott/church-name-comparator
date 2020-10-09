@@ -81,6 +81,14 @@ class ChurchNameComparator
         if ($string1 && $string2) $this->setStrings($string1, $string2);
     }
 
+    public function setStrings($string1, $string2)
+    {
+        $this->string1 = static::sanitize($string1);
+        $this->string2 = static::sanitize($string2);
+
+        return $this;
+    }
+
     public function logTo($file)
     {
         !file_exists($file) || unlink($file);
@@ -95,14 +103,6 @@ class ChurchNameComparator
         if (empty($this->logToFile)) return;
 
         file_put_contents($this->logToFile, "{$message}\n", FILE_APPEND);
-
-        return $this;
-    }
-
-    public function setStrings($string1, $string2)
-    {
-        $this->string1 = static::sanitize($string1);
-        $this->string2 = static::sanitize($string2);
 
         return $this;
     }
@@ -212,18 +212,6 @@ class ChurchNameComparator
         return $this->abbreviations;
     }
 
-    private static function getAllTerms()
-    {
-        return array_merge(
-            static::$prefixes,
-            static::$denominations,
-            static::$adjectives,
-            static::$groups,
-            static::$suffixes,
-            static::$grammar
-        );
-    }
-
     private function generateAbbreviations()
     {
         $abbreviations = [];
@@ -243,27 +231,6 @@ class ChurchNameComparator
         }
 
         return array_keys($abbreviations);
-    }
-
-    private static function isContained($string1, $string2)
-    {
-        $sorted = static::sortByLengthDesc([$string1, $string2]);
-
-        return stripos($sorted[0], $sorted[1]) !== false;
-    }
-
-    private static function reduceTerms($string)
-    {
-        $string = static::removePosession($string);
-        $string = static::removeNonAlpha($string);
-        $searches = static::sortByLengthDesc(static::getAllTerms());
-
-        foreach ($searches as $search) {
-            $pattern = "/\b" . preg_quote($search) . "\b/i";
-            $string = preg_replace($pattern, ' ', $string);
-        }
-
-        return static::sanitize($string);
     }
 
     private function smartAbbreviate($string)
@@ -293,6 +260,20 @@ class ChurchNameComparator
         return $out;
     }
 
+    private static function reduceTerms($string)
+    {
+        $string = static::removePosession($string);
+        $string = static::removeNonAlpha($string);
+        $searches = static::sortByLengthDesc(static::getAllTerms());
+
+        foreach ($searches as $search) {
+            $pattern = "/\b" . preg_quote($search) . "\b/i";
+            $string = preg_replace($pattern, ' ', $string);
+        }
+
+        return static::sanitize($string);
+    }
+
     private function isAbbreviatedString($string)
     {
         $string = strtoupper($string);
@@ -317,6 +298,13 @@ class ChurchNameComparator
         return null;
     }
 
+    private static function isContained($string1, $string2)
+    {
+        $sorted = static::sortByLengthDesc([$string1, $string2]);
+
+        return stripos($sorted[0], $sorted[1]) !== false;
+    }
+
     private static function sortByLengthDesc(array $array)
     {
         usort($array, function($a, $b) {
@@ -339,5 +327,17 @@ class ChurchNameComparator
     private static function sanitize($string)
     {
         return trim(preg_replace('/\s+/', ' ', $string));
+    }
+
+    private static function getAllTerms()
+    {
+        return array_merge(
+            static::$prefixes,
+            static::$denominations,
+            static::$adjectives,
+            static::$groups,
+            static::$suffixes,
+            static::$grammar
+        );
     }
 }
