@@ -287,7 +287,6 @@ class ChurchNameComparator
         $parts = preg_split('/\s+/', $string);
 
         foreach ($parts as $part) {
-            if (static::isGrammarString($part)) continue;
             $out .= $part[0];
         }
 
