@@ -175,7 +175,7 @@ class ChurchNameComparator
         $reduced2 = static::reduceTerms($this->string2);
         $this->log("reduced: {$reduced1} -- {$reduced2}");
 
-        return static::isContained($reduced1, $reduced2);
+        return static::hasSubstring($reduced1, $reduced2);
     }
 
     public function isAbbreviation()
@@ -298,7 +298,7 @@ class ChurchNameComparator
         return null;
     }
 
-    private static function isContained($string1, $string2)
+    private static function hasSubstring($string1, $string2)
     {
         $sorted = static::sortByLengthDesc([$string1, $string2]);
 
